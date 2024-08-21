@@ -1,0 +1,93 @@
+{% load static %}
+{% block nav_bar %}
+    <div class="container position-sticky z-index-sticky top-0">
+      <div class="row">
+        <div class="col-12">
+          <nav class="navbar navbar-expand-lg  blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+            <div class="container-fluid px-0">
+              <a class="navbar-brand font-weight-bolder ms-sm-3" href="/" rel="tooltip"  data-placement="bottom">
+                  Floral Art By Prathyusha
+              </a>
+              <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon mt-2">
+                  <span class="navbar-toggler-bar bar1"></span>
+                  <span class="navbar-toggler-bar bar2"></span>
+                  <span class="navbar-toggler-bar bar3"></span>
+                </span>
+              </button>
+              <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
+                <ul class="navbar-nav navbar-nav-hover ms-auto">
+                  <li class="nav-item dropdown dropdown-hover mx-2">
+                    <a class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa-classic fa-regular fa-snowflake">  &nbsp; </i> Floral Collections <img src="{% static '/assets/img/down-arrow-dark.svg' %}" alt="down-arrow" class="arrow ms-auto ms-md-2">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-animation dropdown-md dropdown-md-responsive p-3 border-radius-lg mt-0 mt-lg-3" aria-labelledby="dropdownMenuBlocks">
+                      <div class="d-none d-lg-block">
+                          {% for collection, sub_collections in nav_floral_data.items %}
+                            <li class="nav-item dropdown dropdown-hover dropdown-subitem">
+                              <a class="dropdown-item py-2 ps-3 border-radius-md" href="#">
+                                <div class="w-100 d-flex align-items-center justify-content-between">
+                                  <div>
+                                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">{{ collection }}</h6>
+                                    <span class="text-sm">See all {{ collection }}</span>
+                                  </div>
+                                  <img src="{% static '/assets/img/down-arrow.svg' %}" alt="down-arrow" class="arrow">
+                                </div>
+                              </a>
+                              <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
+                                  {% for sub_collection in sub_collections %}
+                                      <a class="dropdown-item ps-3 border-radius-md mb-1" href="/collections/{{ sub_collection.id }}/">{{ sub_collection.name }} </a>
+                                  {% endfor %}
+                              </div>
+                            </li>
+                          {% endfor %}
+                      </div>
+                      <div class="row d-lg-none">
+                        <div class="col-md-12">
+                            {% for collection, sub_collections in nav_floral_data.items %}
+                              <div class="d-flex mb-2">
+                                <div class="icon h-10 me-3 d-flex mt-1">
+                                    <i class="fa-solid fa-cannabis text-gradient text-primary"></i>
+                                </div>
+                                <div class="w-100 d-flex align-items-center justify-content-between">
+                                  <div>
+                                    <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">{{ collection }}</h6>
+                                  </div>
+                                </div>
+                              </div>
+                                {% for sub_collection in sub_collections %}
+                                      <a class="dropdown-item ps-3 border-radius-md mb-1" href="/collections/{{ sub_collection.id }}/"> {{ sub_collection.name }} </a>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                      </div>
+                    </ul>
+                  </li>
+                  <li class="nav-item ms-lg-auto">
+                    <a class="nav-link nav-link-icon me-2" href="https://wa.me/9133854282?text=I'm%20interested%20in%20your%20car%20for%20sale" target="#">
+                      <i class="fa-solid fa-address-book"></i>
+                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Contact Us on WhatsApp">+91-91234567890</p>
+                    </a>
+                  </li>
+                  <li class="nav-item ms-lg-auto">
+                    <a class="nav-link nav-link-icon me-2 text-primary position-relative" href="/checkout/" >
+                      <i class="fa-solid fa-cart-shopping"></i>
+                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom">
+                          Cart
+                          <span id="cartValue" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary badge badge-sm badge-circle badge-danger border border-white border-2">
+                              0
+                            <span class="visually-hidden"></span>
+                          </span>
+                      </p>
+
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        </div>
+      </div>
+    </div>
+{% endblock %}

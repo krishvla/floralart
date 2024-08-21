@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block static %}
+    <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <style>
+        body{
+            background-image: url("{% static 'assets/img/floral_home.jpg' %}");
+        }
+        #product_container{
+            padding: 20px;
+            border-radius: 7px;
+        }
+        #product_details_container{
+            padding: 10px;
+            border-radius: 7px;
+        }
+        .qty-input {
+             width: 150px;
+            right: 0;
+             color: #000;
+             background: #fff;
+             display: flex;
+             align-items: center;
+             overflow: hidden;
+        }
+         .qty-input .product-qty, .qty-input .qty-count {
+             background: transparent;
+             color: inherit;
+             font-weight: bold;
+             font-size: inherit;
+             border: none;
+             display: inline-block;
+             min-width: 0;
+             line-height: 1;
+        }
+         .qty-input .product-qty:focus, .qty-input .qty-count:focus {
+             outline: none;
+        }
+         .qty-input .product-qty {
+             width: 50px;
+             min-width: 0;
+             display: inline-block;
+             text-align: center;
+             appearance: textfield;
+        }
+         .qty-input .product-qty::-webkit-outer-spin-button, .qty-input .product-qty::-webkit-inner-spin-button {
+             appearance: none;
+             margin: 0;
+        }
+         .qty-input .qty-count {
+             padding: 0;
+             cursor: pointer;
+             width: 2.5rem;
+             font-size: 1.25em;
+             text-indent: -100px;
+             overflow: hidden;
+             position: relative;
+        }
+         .qty-input .qty-count:before, .qty-input .qty-count:after {
+             content: "";
+             height: 2px;
+             width: 10px;
+             position: absolute;
+             display: block;
+             background: #000;
+             top: 0;
+             bottom: 0;
+             left: 0;
+             right: 0;
+             margin: auto;
+        }
+         .qty-input .qty-count--minus {
+             border-right: 1px solid #e2e2e2;
+        }
+         .qty-input .qty-count--add {
+             border-left: 1px solid #e2e2e2;
+        }
+         .qty-input .qty-count--add:after {
+             transform: rotate(90deg);
+        }
+         .qty-input .qty-count:disabled {
+             color: #ccc;
+             background: #f2f2f2;
+             cursor: not-allowed;
+             border-color: transparent;
+        }
+         .qty-input .qty-count:disabled:before, .qty-input .qty-count:disabled:after {
+             background: #ccc;
+        }
+         .qty-input {
+             border-radius: 4px;
+             box-shadow: 0 1em 2em -0.9em rgba(0, 0, 0, 0.7);
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <br><br><br><br>
+    <div class="modal fade" id="productGalleryModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="swiffy-slider h-100 slider-nav-dark" id="pgalleryModal">
+                        <ul class="slider-container" tabindex="-1">
+                            <li class="d-flex align-items-center justify-content-center"><img src="{{ MEDIA_URL }}/{{ product.product_image }}" loading="lazy" class="mw-100 mh-100" alt="..." data-bs-dismiss="modal"></li>
+                            {% for product_image in product_images %}
+                                <li class="d-flex align-items-center justify-content-center"><img src="{{ MEDIA_URL }}/{{ product_image.image }}" loading="lazy" class="mw-100 mh-100" alt="..." data-bs-dismiss="modal"></li>
+                            {% endfor %}
+                        </ul>
+
+                        <button type="button" class="slider-nav" aria-label="Go previous"></button>
+                        <button type="button" class="slider-nav slider-nav-next" aria-label="Go next"></button>
+                        <ul class="slider-indicators slider-indicators-dark slider-indicators-highlight slider-indicators-round">
+                            <li class=""></li>
+                            <li></li>
+                            <li></li>
+                            <li class="active"></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container blur" id="product_container">
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="col-12" id="productGallery">
+                    <script>
+                        function imageClick(imageNumber) {
+                            setTimeout(() => {
+                                //Find the slider element
+                                const sliderElement = document.getElementById('pgalleryModal');
+                                //Slide to he right image
+                                swiffyslider.slideTo(sliderElement, imageNumber);
+                                //Listen to slide end and set focus to the container to enable keyboard navigation
+                                swiffyslider.onSlideEnd(sliderElement, () => sliderElement.querySelector(".slider-container").focus());
+                            }, 300)
+                        }
+
+                        function thumbHover(imageNumber) {
+                            //Find the slider element
+                            const sliderElement = document.getElementById('pgallery');
+                            //Slide to he right image
+                            swiffyslider.slideTo(sliderElement, imageNumber)
+                        }
+                    </script>
+                    <div class="swiffy-slider slider-item-ratio slider-item-ratio-1x1 slider-nav-round slider-nav-nodelay" id="pgallery">
+                        <ul class="slider-container">
+                            <li><img src="{{ MEDIA_URL }}/{{ product.product_image }}" loading="lazy" alt="..." data-bs-toggle="modal" data-bs-target="#productGalleryModal" onclick="imageClick(0)"></li>
+                            {% for product_image in product_images %}
+                                <li>
+                                    <img src="{{ MEDIA_URL }}/{{ product_image.image }}" loading="lazy" alt="..." data-bs-toggle="modal" data-bs-target="#productGalleryModal" onclick="imageClick({{ forloop.counter }})">
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <button type="button" class="slider-nav" aria-label="Go previous"></button>
+                        <button type="button" class="slider-nav slider-nav-next" aria-label="Go next"></button>
+                    </div>
+
+                    <div class="swiffy-slider slider-nav-dark slider-nav-sm slider-nav-chevron slider-item-show4 slider-item-snapstart slider-item-ratio slider-item-ratio-1x1 slider-nav-visible slider-nav-page slider-nav-outside-expand pt-3 d-none d-lg-block">
+                        <ul class="slider-container" id="pgallerythumbs" style="cursor:pointer">
+                            <li><img src="{{ MEDIA_URL }}/{{ product.product_image }}" loading="lazy" alt="..." onmouseover="thumbHover(0)"></li>
+                            {% for product_image in product_images %}
+                                <li><img src="{{ MEDIA_URL }}/{{ product_image.image }}" loading="lazy" alt="..." onmouseover="thumbHover({{ forloop.counter }})"></li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="slider-nav" aria-label="Go previous"></button>
+                        <button type="button" class="slider-nav slider-nav-next" aria-label="Go next"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="container blur" id="product_details_container">
+                    <p class="h2" id="product-name">{{ product.name}}</p>
+                    <p id="product-id" style="display: none">{{ product.id }}</p>
+                    <p id="max-stock" style="display: none">{{ product.max_stock }}</p>
+                    <p>{{ product.description }}</p>
+                    <p>SKU: <span id="product-sku">{{ product.sku }}</span></p>
+                    <p class="font-weight-bolder my-auto">Original Price: &nbsp;<s>₹<span class="font-weight-normal my-auto" id="product-price">{{ product.price }}</span></s></p>
+                    <p class=" h4 font-weight-bolder my-auto">Discount Price: &nbsp;<span class="font-weight-bolder my-auto text-primary">₹ <span id="product-discount-price">{{ product.discount_price }}</span></span></p>
+                    <p>Quantity: </p>
+                    <div class="qty-input text-primary">
+                        <button class="qty-count qty-count--minus" data-action="minus" type="button" id="decrease-qty">-</button>
+                            <span class="product-qty" id="quantity">1</span>
+                        <button class="qty-count qty-count--add" data-action="add" type="button" id="increase-qty">+</button>
+                    </div>
+                    <br>
+                    <button class="btn btn-icon btn-3 btn-primary" type="button" id="add-to-cart">
+                        <span class="btn-inner--icon"><i class="fa-solid fa-cart-plus"></i></span>
+                      <span class="btn-inner--text">Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static '/assets/js/cart.js' %}"></script>
+{% endblock %}
