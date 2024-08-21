@@ -48,6 +48,8 @@ class CollectionView(TemplateView):
 
 class CheckoutView(TemplateView):
     def get(self, request, *args, **kwargs):
+        context = {}
+        context['nav_floral_data'] = categories_list()
         cart_data = request.COOKIES.get('cart', '')
         decoded_cart_data = urllib.parse.unquote(cart_data)
         try:
@@ -62,5 +64,6 @@ class CheckoutView(TemplateView):
                 product_obj = Product.objects.get(id=product_id)
                 cart[product_id]['product_image'] = product_obj.product_image
                 cart[product_id]['max_stock'] = product_obj.max_stock
-        return render(request, 'checkout.html', {'cart': cart})
+        context['cart'] = cart
+        return render(request, 'checkout.html', context)
 
