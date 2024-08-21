@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Increase quantity
     document.getElementById('increase-qty').addEventListener('click', function () {
         if (!cart[productId]) {
-            cart[productId] = { name: productName, price: productPrice, quantity: 0, dicountPrice: productDiscountPrice, sku: productSKU };
+            cart[productId] = { name: productName, price: productDiscountPrice, quantity: 0, dicountPrice: productDiscountPrice, sku: productSKU };
         }
         if (cart[productId].quantity < maxStock) {
             cart[productId].quantity++;
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add to cart
     document.getElementById('add-to-cart').addEventListener('click', function () {
         if (!cart[productId]) {
-            cart[productId] = { name: productName, price: productPrice, quantity: 0, dicountPrice: productDiscountPrice, sku: productSKU };
+            cart[productId] = { name: productName, price: productDiscountPrice, quantity: 0, dicountPrice: productDiscountPrice, sku: productSKU };
         }
         cart[productId].quantity = parseInt(document.getElementById('quantity').textContent, 10);
         if (cart[productId].quantity > maxStock) {
