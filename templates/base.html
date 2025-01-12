@@ -18,15 +18,38 @@
     <style>
         body{
             background-color: #FFC0CB !important;
+            background-image: url("{% static 'assets/img/floral_home.jpg' %}");
         }
         .container-replica{
+            padding: 10px;
             margin-top: 20px;
             margin-bottom: 20px;
             margin-left: 20px;
             margin-right: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(4.4px);
+            -webkit-backdrop-filter: blur(4.4px);
+            border: 1px solid rgba(255, 255, 255, 0.29);
         }
         .products-list-card{
             margin-bottom: 50px !important;
+        }
+        .floating-cart-button {
+          background-color: transparent;
+          position: fixed;
+          border-radius: 50px;
+          bottom: 40px;
+          right: 10px;
+          border: none;
+          width: 60px;
+          height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 1000;
         }
     </style>
     {% block static %} {% endblock %}
@@ -37,6 +60,18 @@
     {% endblock %}
     {% block content %}
     {% endblock %}
+    <div class="floating-cart-button">
+      <a class="nav-link nav-link-icon  text-primary position-relative" href="/checkout/" >
+        <i class="fa-solid fa-cart-shopping"></i>
+        <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom">
+            &nbsp;&nbsp;
+            <span id="cartValue2" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary badge badge-sm badge-circle badge-danger border border-white border-2">
+                0
+              <span class="visually-hidden"></span>
+            </span>
+        </p>
+      </a>
+    </div>
     <!--   Core JS Files   -->
     <script src="{% static '/assets/js/core/popper.min.js' %}" type="text/javascript"></script>
     <script src="{% static '/assets/js/core/bootstrap.min.js' %}" type="text/javascript"></script>
@@ -51,6 +86,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             cart_items_length = Object.keys(cart).length;
             document.getElementById("cartValue").textContent = cart_items_length;
+            document.getElementById("cartValue2").textContent = cart_items_length;
         })
     </script>
   </body>

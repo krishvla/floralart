@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const productId = document.getElementById("product-id").textContent; // Example product ID
     const productSKU = document.getElementById("product-sku").textContent;
     const productName = document.getElementById('product-name').textContent;
-    const productPrice = parseFloat(document.getElementById('product-price').textContent);
     const productDiscountPrice = parseFloat(document.getElementById('product-discount-price').textContent);
     const maxStock = parseInt(document.getElementById('max-stock').textContent, 10);
 

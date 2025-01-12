@@ -21,6 +21,7 @@ def categories_list():
                     'name': subcategory.name,
                     'description': subcategory.description,
                     'id': subcategory.id,
+                    'banner': subcategory.banner
                 })
         if temp:
             data[category.name] = temp

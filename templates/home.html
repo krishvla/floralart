@@ -17,6 +17,62 @@
                    line-clamp: 1;
            -webkit-box-orient: vertical;
         }
+
+        .container-replica .products .card{
+            margin-right: 10px;
+        }
+
+        .d {
+          background: rgba(255, 192, 203, 0.3); /* Semi-transparent button */
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.5); /* Transparent border */
+          border-radius: 10px;
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+          backdrop-filter: blur(15px); /* Slight blur for the button */
+          transition: all 0.3s ease;
+        }
+
+        .transparent-button:hover {
+          background: rgba(255, 255, 255, 0.4); /* Slightly more opaque on hover */
+          color: black;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+        .custom-shape-divider-bottom-1635508836 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+          transform: scaleX(-1);
+        }
+
+        .custom-shape-divider-bottom-1635508836 svg {
+            position: relative;
+            display: block;
+            width: calc(183% + 1.3px);
+            height: 80px;
+            transform: rotateY(180deg);
+        }
+
+        .custom-shape-divider-bottom-1635508836 .shape-fill {
+            fill: #FFFFFF;
+        }
+
+        .card-overlay{
+          opacity:0;
+          transition:0.5s ease-in-out;
+        }
+
+        .card:hover .card-overlay{
+          opacity:0.8;
+        }
+        .catalogue-card-body{
+
+        }
     </style>
 {% endblock %}
 {% block content %}
@@ -33,13 +89,33 @@
     </div>
     <div class="container-replica">
         <div>
+            <h2>Browse Our Catalogue!..</h2>
+        </div>
+        <br>
+        <div class="products d-flex flex-row flex-nowrap overflow-auto">
+            {% for collection, sub_collections in nav_floral_data.items %}
+                {% for sub_collection in sub_collections %}
+                    <a class="col-lg-4 col-10" href="/collections/{{ sub_collection.id }}/">
+                      <div class="card card-background">
+                          <div class="full-background" style="background-image: url('{{ MEDIA_URL }}/{{ sub_collection.banner }}')"></div>
+                          <div class="card-body pt-12 catalogue-card-body">
+                            <h4 class="text-white font-weight-normal">{{ sub_collection.name }}</h4>
+                            <p>{{ sub_collection.description }}</p>
+                          </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container-replica">
+        <div>
             <h2>New Arrivals!..</h2>
         </div>
         <br>
-        <br>
-        <div class="row">
+        <div class="products d-flex flex-row flex-nowrap overflow-auto">
             {% for item in recent_items %}
-                <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="col-lg-4 col-10">
                       <div class="card products-list-card blur"  data-animation="true">
                           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <a class="d-block blur-shadow-image">
@@ -75,10 +151,9 @@
             <h2>Most Viewed!..</h2>
         </div>
         <br>
-        <br>
-        <div class="row">
+        <div class="products d-flex flex-row flex-nowrap overflow-auto">
             {% for item in most_viewed_items %}
-                <div class="col-lg-3 col-md-4 col-sm-12">
+                <div class="col-lg-4 col-10">
                       <div class="card products-list-card blur"  data-animation="true">
                           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <a class="d-block blur-shadow-image">
