@@ -82,7 +82,7 @@ function checkout() {
 
     const message = `*Checkout details:*\n\n${cartDetails}\n*Total Amount:* ₹${totalAmount}\n*Total Items:* ${totalItems}`;
 
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=+918971550677&text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=+919538912199&text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 }
 

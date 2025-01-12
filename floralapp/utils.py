@@ -1,4 +1,7 @@
-from floralapp.models import Category, SubCategory
+from django.db.models import TextField
+from django.db.models.functions import Cast
+
+from floralapp.models import Category, SubCategory, Product
 
 
 def categories():
@@ -26,3 +29,14 @@ def categories_list():
         if temp:
             data[category.name] = temp
     return data
+
+def get_search_data(context: dict):
+    try:
+        subcategories = list(SubCategory.objects.annotate(str_id=Cast('id', output_field=TextField())).values('str_id', 'name'))
+        products = list(Product.objects.annotate(str_id=Cast('id', output_field=TextField())).values('str_id', 'name'))
+        context['subcategories'] = subcategories
+        context['products'] = products
+    except Exception:
+        print("Error occur")
+    return context
+

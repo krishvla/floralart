@@ -3,8 +3,8 @@ import urllib.parse
 
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from floralapp.models import Product, SubCategory, ProductImage
-from floralapp.utils import categories_list
+from floralapp.models import Product, SubCategory, ProductImage, Category
+from floralapp.utils import categories_list, get_search_data
 
 
 # Create your views here.
@@ -17,7 +17,7 @@ class HomeView(TemplateView):
         context['nav_floral_data'] = categories_list()
         context['recent_items'] = recent_items
         context['most_viewed_items'] = most_viewed_items
-        print(context)
+        context.update(get_search_data({}))
         return render(request, 'home.html', context=context)
 
 
@@ -31,6 +31,7 @@ class ProductView(TemplateView):
         context['product'] = product
         context['product_images'] = product_images
         context['c'] = [1,2,3,4]
+        context.update(get_search_data({}))
         return render(request, 'product_detail.html', context=context)
 
 
@@ -43,6 +44,7 @@ class CollectionView(TemplateView):
         context['nav_floral_data'] = categories_list()
         context['collection_items'] = collection_items
         context['collection'] = collection
+        context.update(get_search_data({}))
         return render(request, 'collection.html', context=context)
 
 
@@ -65,5 +67,6 @@ class CheckoutView(TemplateView):
                 cart[product_id]['product_image'] = product_obj.product_image
                 cart[product_id]['max_stock'] = product_obj.max_stock
         context['cart'] = cart
+        context.update(get_search_data({}))
         return render(request, 'checkout.html', context)
 
