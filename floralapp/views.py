@@ -45,7 +45,7 @@ class CollectionView(TemplateView):
             fk_subcategory_id=collection_id
         ).order_by('-created_at')
 
-        paginator = Paginator(products, 2)  # 12 products per page
+        paginator = Paginator(products, 12)  # 12 products per page
 
         page_number = request.GET.get('page')
         collection_items = paginator.get_page(page_number)
