@@ -1,6 +1,7 @@
 import json
 import urllib.parse
 
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from floralapp.models import Product, SubCategory, ProductImage, Category
@@ -40,7 +41,14 @@ class CollectionView(TemplateView):
         context = {}
         collection_id = kwargs.get('collection_id')
         collection = SubCategory.objects.get(id=collection_id)
-        collection_items = Product.objects.filter(fk_subcategory=collection).order_by('-created_at')
+        products = Product.objects.filter(
+            fk_subcategory_id=collection_id
+        ).order_by('-created_at')
+
+        paginator = Paginator(products, 2)  # 12 products per page
+
+        page_number = request.GET.get('page')
+        collection_items = paginator.get_page(page_number)
         context['nav_floral_data'] = categories_list()
         context['collection_items'] = collection_items
         context['collection'] = collection

@@ -68,4 +68,37 @@
             {% endfor %}
         </div>
     </div>
+    <div class="container-replica">
+        <div class="row">
+            <nav aria-label="...">
+              <ul class="pagination">
+                  {% if collection_items.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ collection_items.previous_page_number }}" tabindex="-1">Previous</a>
+                    </li>
+                  {% endif %}
+                  {% for num in collection_items.paginator.page_range %}
+                    {% if collection_items.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                       <li class="page-item active">
+                          <a class="page-link" href="javascript:;">{{ num }}<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if collection_items.has_next %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ collection_items.next_page_number }}">Next</a>
+                    </li>
+                  {% endif %}
+
+              </ul>
+            </nav>
+        </div>
+    </div>
 {% endblock %}
